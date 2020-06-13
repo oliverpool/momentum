@@ -160,6 +160,7 @@ class CounterModel extends MomentumModel<CounterController> {
 class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       appBar: AppBar(
         title: Text('Momentum Counter'),
@@ -184,18 +185,11 @@ class HomeWidget extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: MomentumBuilder(
-        controllers: [CounterController],
-        // we don't need to rebuild the increment button.
-        dontRebuildIf: (_, __) => true,
-        builder: (context, snapshot) {
-          var controller = snapshot<CounterModel>().controller;
-          return FloatingActionButton(
-            onPressed: controller.increment,
-            tooltip: 'Increment',
-            child: Icon(Icons.add),
-          );
-        },
+      // we don't need to rebuild the increment button, we can skip the MomentumBuilder
+      floatingActionButton: FloatingActionButton(
+        onPressed: Momentum.controller<CounterController>(context).increment,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
       ),
     );
   }
